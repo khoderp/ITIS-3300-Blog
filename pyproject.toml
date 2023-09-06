@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "itis-3300-blog"
+version = "0.1.0"
+description = "Our blog website for ITIS 3300, Software Requirements and Project Management."
+authors = ["Jaden Peterson"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+Flask = "^2.3.3"
+python = "^3.11"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
