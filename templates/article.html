@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block main %}
+	<div class="container mt-4">
+		<h1 class="display-2">{{ article.title }}</h1>
+		<div class="d-flex gap-3">
+			<h6 class="text-body-secondary">By {{ article.author }}</h6>
+			<small class="fw-bold text-body-tertiary">{{ article.date }}</small>
+		</div>
+
+		{{ article.rendered()|safe}}
+	</div>
+{% endblock %}
