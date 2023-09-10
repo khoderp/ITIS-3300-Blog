@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 
+{% set title = article.title %}
+
 {% block main %}
-	<div class="container mt-4">
+	<div class="container col-xl-8 col-xxl-6 my-5">
 		<h1 class="display-2">{{ article.title }}</h1>
 		<div class="d-flex gap-3">
 			<h6 class="text-body-secondary">By {{ article.author }}</h6>

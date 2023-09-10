@@ -1,4 +1,3 @@
-import typing as t
 import bs4
 import dataclasses
 import datetime
@@ -32,7 +31,12 @@ class Article:
 			)
 
 	def preview(self) -> str:
-		return bs4.BeautifulSoup(self.rendered()).get_text()
+		soup = bs4.BeautifulSoup(self.rendered())
+
+		for tag in soup.select("figcaption"):
+			tag.extract()
+
+		return soup.get_text()
 
 	def rendered(self) -> str:
 		with open(self.template_path, "r") as file:
