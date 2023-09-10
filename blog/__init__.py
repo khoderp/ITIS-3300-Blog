@@ -34,7 +34,7 @@ class Article:
 			)
 
 	def preview(self) -> str:
-		soup = bs4.BeautifulSoup(self.rendered())
+		soup = bs4.BeautifulSoup(self.rendered(), features="html.parser")
 
 		for tag in soup.select("figcaption"):
 			tag.extract()
@@ -70,8 +70,6 @@ class ArticleRepository:
 				return article.subpath
 
 		return ArticleConverter
-
-
 
 class ArticleIndex:
 	_schema: Schema

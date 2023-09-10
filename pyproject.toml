@@ -9,6 +9,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 beautifulsoup4 = "^4.12.2"
 Flask = "^2.3.3"
+gunicorn = "^21.2.0"
 python = "^3.11"
 whoosh = "^2.7.4"
 
