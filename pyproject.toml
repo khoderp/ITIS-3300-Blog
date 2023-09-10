@@ -10,6 +10,7 @@ readme = "README.md"
 beautifulsoup4 = "^4.12.2"
 Flask = "^2.3.3"
 python = "^3.11"
+whoosh = "^2.7.4"
 
 [build-system]
 requires = ["poetry-core"]

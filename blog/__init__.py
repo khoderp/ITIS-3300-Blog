@@ -6,6 +6,9 @@ import json
 import os
 import typing
 import werkzeug.routing
+from whoosh.fields import Schema, DATETIME, STORED, TEXT
+from whoosh.filedb.filestore import RamStorage
+from whoosh.qparser import QueryParser
 
 @dataclasses.dataclass
 class Article:
@@ -67,3 +70,35 @@ class ArticleRepository:
 				return article.subpath
 
 		return ArticleConverter
+
+
+
+class ArticleIndex:
+	_schema: Schema
+
+	def __init__(self, repository: ArticleRepository):
+		self._schema = Schema(title=TEXT, author=TEXT, date=DATETIME, content=TEXT, article=STORED)
+		self._index = RamStorage().create_index(self._schema)
+		self._query_parser = QueryParser("content", self._schema)
+
+		writer = self._index.writer()
+
+		for article in repository.articles:
+			writer.add_document(
+				title=article.title,
+				author=article.author,
+				date=datetime.datetime.combine(article.date, datetime.datetime.min.time()),
+				content=article.preview(),
+				article=article
+			)
+
+		writer.commit()
+
+	def search(self, query: str) -> typing.List[Article]:
+		articles = []
+
+		with self._index.searcher() as searcher:
+			for result in searcher.search(self._query_parser.parse(query)):
+				articles.append(result["article"])
+
+		return articles
