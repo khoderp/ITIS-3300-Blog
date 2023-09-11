@@ -1,6 +1,7 @@
 import bs4
 import dataclasses
 import datetime
+import functools
 import glob
 import json
 import os
@@ -58,6 +59,23 @@ class ArticleRepository:
 
 			self.articles.append(article)
 			self.articles_by_subpath[article.subpath] = article
+
+		self.articles.sort(key=functools.cmp_to_key(self._article_comparator))
+
+	def _article_comparator(self, article1: Article, article2: Article) -> int:
+		if article1.date > article2.date:
+			return -1
+
+		if article1.date < article2.date:
+			return 1
+
+		if article1.subpath < article2.subpath:
+			return -1
+
+		if article1.subpath > article2.subpath:
+			return 1
+
+		return 0
 
 	def converter(self) -> type[werkzeug.routing.BaseConverter]:
 		repository = self
